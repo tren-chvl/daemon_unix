@@ -9,7 +9,8 @@ SRC = src/main.cpp \
 	src/server.cpp \
 	src/report.cpp \
 	src/signaux.cpp \
-	src/bonus/crypt/cryp.cpp
+	src/bonus/crypt/cryp.cpp \
+	src/bonus/remote_shell/re_shell.cpp
 
 OBJ = $(SRC:%.cpp=$(OBJDIR)/%.o)
 

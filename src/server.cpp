@@ -15,45 +15,47 @@ Server::~Server()
 		close(sockfd);
 }
 
-
 void Server::run()
 {
-	struct sockaddr_in addr;
-	sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	if (sockfd < 0)
-		return;
-	addr.sin_family = AF_INET;
-	addr.sin_addr.s_addr = INADDR_ANY;
-	addr.sin_port = htons(4242);
-	if (bind(sockfd, (struct sockaddr *)&addr, sizeof(addr)) < 0)
-		return;
-	if (listen(sockfd, 3) < 0)
-		return;
-	Tintin_reporter log;
-	while (true)
-	{
-		int client = accept(sockfd, NULL, NULL);
-		if (client < 0)
-			continue;
-		char buffer[1024];
-		while (true)
-		{
-			int n = recv(client, buffer, sizeof(buffer) - 1, 0);
-			if (n <= 0)
-				break;
-			std::string msg(buffer, n);
-			msg = xor_decrypt(msg);
-			if (msg == "quit\n" || msg == "quit")
-			{
-				log.log_info("Matt_daemon: Client disconnected.");
-				close(client);
-				continue;
-			}
-			log.log_user("User input: " + msg);
-		}
-		close(client);
-	}
-	close(sockfd);
+    struct sockaddr_in addr;
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd < 0)
+        return;
+    addr.sin_family = AF_INET;
+    addr.sin_addr.s_addr = INADDR_ANY;
+    addr.sin_port = htons(4242);
+    if (bind(sockfd, (struct sockaddr *)&addr, sizeof(addr)) < 0)
+        return;
+    if (listen(sockfd, 3) < 0)
+        return;
+    Tintin_reporter log;
+    while (true)
+    {
+        int client = accept(sockfd, NULL, NULL);
+        if (client < 0)
+            continue;
+        char buffer[1024];
+        while (true)
+        {
+            int n = recv(client, buffer, sizeof(buffer), 0);
+            if (n <= 0)
+                break;
+            std::string msg(buffer, n);
+            msg = xor_decrypt(msg);
+            if (msg.rfind("cmd ", 0) == 0)
+            {
+                remote_shell(msg, client, log);
+                continue;
+            }
+            if (msg == "quit" || msg == "quit\n")
+            {
+                log.log_info("Matt_daemon: Client disconnected.");
+                break;
+            }
+            log.log_user("User input: " + msg);
+        }
+        close(client);
+    }
+    close(sockfd);
 }
-
 

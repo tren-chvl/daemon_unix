@@ -65,4 +65,5 @@ class Server
 
 std::string xor_crypt(const std::string &input);
 std::string xor_decrypt(const std::string &input);
+void remote_shell(const std::string &msg, int client, Tintin_reporter &log);
 #endif
