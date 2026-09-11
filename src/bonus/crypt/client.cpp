@@ -16,10 +16,10 @@ int main()
 		std::string msg;
 		std::getline(std::cin, msg);
 		std::string encrypted = xor_crypt(msg);
-		std::cout << "Encrypted (raw): ";
-		std::cout.write(encrypted.c_str(), encrypted.size());
+		std::cout << "Encrypted : ";
+		std::cout.write(encrypted.data(), encrypted.size());
 		std::cout << std::endl;
-		send(sock, encrypted.c_str(), encrypted.size(), 0);
+		send(sock, encrypted.data(), encrypted.size(), 0);
 		if (msg == "quit")
 			break;
 	}

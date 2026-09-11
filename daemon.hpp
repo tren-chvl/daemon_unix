@@ -12,6 +12,8 @@
 #include <signal.h>
  #include <arpa/inet.h>
 #include <fcntl.h>
+#include <sstream>
+#include <iomanip>
 #include <iostream>
 #include <algorithm>
 #include <unistd.h>
@@ -62,5 +64,5 @@ class Server
 };
 
 std::string xor_crypt(const std::string &input);
-
+std::string xor_decrypt(const std::string &input);
 #endif

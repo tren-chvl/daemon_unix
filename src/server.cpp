@@ -41,17 +41,13 @@ void Server::run()
 			int n = recv(client, buffer, sizeof(buffer) - 1, 0);
 			if (n <= 0)
 				break;
-			buffer[n] = '\0';
-			std::string msg(buffer);
-			msg = xor_crypt(msg);
-			msg.erase(std::remove(msg.begin(), msg.end(), '\n'), msg.end());
-			msg.erase(std::remove(msg.begin(), msg.end(), '\r'), msg.end());
+			std::string msg(buffer, n);
+			msg = xor_decrypt(msg);
 			if (msg == "quit\n" || msg == "quit")
 			{
-				log.log_info("Matt_daemon: Request quit.");
+				log.log_info("Matt_daemon: Client disconnected.");
 				close(client);
-				close(sockfd);
-				return;
+				continue;
 			}
 			log.log_user("User input: " + msg);
 		}
