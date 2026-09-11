@@ -12,7 +12,9 @@ int main()
 	{
 		std::string msg;
 		std::getline(std::cin, msg);
+
 		std::string encrypted = xor_crypt(msg);
+		encrypted = "XOR:" + encrypted;
 		std::cout << "Encrypted : ";
 		std::cout.write(encrypted.data(), encrypted.size());
 		std::cout << std::endl;

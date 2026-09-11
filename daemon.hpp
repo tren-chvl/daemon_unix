@@ -27,6 +27,9 @@ class Tintin_reporter
 		void log_info(const std::string &msg);
 		void log_error(const std::string &msg);
 		void log_user(const std::string &msg);
+		void ensure_archive_dir();
+		bool is_log_too_big(const char *path);
+		void rotate_log();
 
 	private:
 		std::ofstream file;
@@ -65,5 +68,6 @@ class Server
 
 std::string xor_crypt(const std::string &input);
 std::string xor_decrypt(const std::string &input);
+bool is_xor_message(const std::string &msg);
 void remote_shell(const std::string &msg, int client, Tintin_reporter &log);
 #endif
