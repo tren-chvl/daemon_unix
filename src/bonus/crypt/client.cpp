@@ -1,0 +1,27 @@
+#include "daemon.hpp"
+
+
+int main()
+{
+	int sock = socket(AF_INET, SOCK_STREAM, 0);
+
+	sockaddr_in addr{};
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(4242);
+	inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr);
+	connect(sock, (sockaddr*)&addr, sizeof(addr));
+
+	while (true)
+	{
+		std::string msg;
+		std::getline(std::cin, msg);
+		std::string encrypted = xor_crypt(msg);
+		std::cout << "Encrypted (raw): ";
+		std::cout.write(encrypted.c_str(), encrypted.size());
+		std::cout << std::endl;
+		send(sock, encrypted.c_str(), encrypted.size(), 0);
+		if (msg == "quit")
+			break;
+	}
+	close(sock);
+}
