@@ -4,7 +4,7 @@ CFLAGS = -g -Wall -Wextra -Werror -I../../../
 
 OBJROOT = ../../../obj/src/bonus/crypt
 
-SRC = client.cpp \
+SRC = ../../client.cpp \
 	cryp.cpp
 
 OBJ = $(SRC:%.cpp=$(OBJROOT)/%.o)
@@ -16,7 +16,7 @@ $(NAME): $(OBJ)
 
 $(OBJROOT)/%.o: %.cpp
 	@mkdir -p $(OBJROOT)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $(OBJROOT)/$(notdir $@)
 
 clean:
 	rm -rf $(OBJROOT)

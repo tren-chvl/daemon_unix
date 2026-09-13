@@ -11,17 +11,21 @@ SRC = src/main.cpp \
 	src/signaux.cpp \
 	src/bonus/crypt/cryp.cpp \
 	src/bonus/remote_shell/re_shell.cpp \
-	src/bonus/advance_log/log.cpp
+	src/bonus/advance_log/log.cpp \
+	src/bonus/auth/auth.cpp 
 
 OBJ = $(SRC:%.cpp=$(OBJDIR)/%.o)
 
-all: $(NAME) client
+all: $(NAME) client ben_afk
 
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
 client:
 	make -C src/bonus/crypt
+
+ben_afk:
+	make -C src/bonus/cli_grah
 
 $(OBJDIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)
@@ -37,4 +41,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re client
+.PHONY: all clean fclean re client ben_afk

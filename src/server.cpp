@@ -17,7 +17,7 @@ Server::~Server()
 
 bool is_xor_message(const std::string &msg)
 {
-    return msg.rfind("XOR:", 0) == 0;
+	return msg.rfind("XOR:", 0) == 0;
 }
 
 void Server::run()
@@ -39,6 +39,7 @@ void Server::run()
 		int client = accept(sockfd, NULL, NULL);
 		if (client < 0)
 			continue;
+		bool auth = false;
 		char buffer[1024];
 		while (true)
 		{
@@ -49,6 +50,10 @@ void Server::run()
 			if (is_xor_message(msg))
 				msg = xor_decrypt(msg.substr(4)); 
 			log.log_user("User input: " + msg);
+			if (!handle_auth(msg, auth, client, log))
+				break;
+			if (!auth)
+				continue;
 			if (msg.rfind("cmd ", 0) == 0)
 			{
 				remote_shell(msg, client, log);
@@ -58,6 +63,16 @@ void Server::run()
 			{
 				log.log_info("Matt_daemon: Client disconnected.");
 				break;
+			}
+			if (msg == "alert" || msg == "alert\n")
+			{
+				log.log_info("Matt_daemon: Sending alert mail.");
+				int ret = system("echo 'Alert from Matt_daemon: received \"alert\" command.' | mail -s 'Matt_daemon Alert' root");
+				if (ret == -1)
+					log.log_error("Matt_daemon: Failed to execute mail command.");
+				else
+					log.log_info("Matt_daemon: Alert mail sent.");
+				continue;
 			}
 			log.log_error("Unknown command: " + msg);
 			std::string resp = "Unknown command.\n";
