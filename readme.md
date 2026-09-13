@@ -1,7 +1,7 @@
 # 🧿 Matt_daemon — UNIX Daemon 
 
 <p align="center">
-  <img src="assets/daemon.gif" width="400" alt="Nmap">
+  <img src="assets/daemon_better.gif" width="400"  alt="Nmap">
 </p>
 
 
