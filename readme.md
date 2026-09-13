@@ -12,11 +12,11 @@
 <br>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/C%2B%2B-111111?style=for-the-badge&logo=cplusplus&logoColor=white" alt="C++">
+  <img src="https://img.shields.io/badge/C%2B%2B-111111?style=for-the-badge&logo=&logoColor=white" alt="C++">
   <img src="https://img.shields.io/badge/UNIX-111111?style=for-the-badge&logo=linux&logoColor=white" alt="UNIX">
   <img src="https://img.shields.io/badge/TCP-111111?style=for-the-badge" alt="TCP">
   <img src="https://img.shields.io/badge/Daemon-111111?style=for-the-badge" alt="Daemon">
-  <img src="https://img.shields.io/badge/42-000000?style=for-the-badge&logo=42&logoColor=white" alt="42">
+  <img src="https://img.shields.io/badge/42-000000?style=for-the-badge&logo=&logoColor=white" >
 </p>
 
 ---
