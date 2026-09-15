@@ -13,9 +13,13 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <sstream>
+#include <string.h>
 #include <iomanip>
 #include <iostream>
 #include <algorithm>
+#include <wchar.h>
+#include <ncurses.h>
+#include <curses.h>
 #include <unistd.h>
 
 class Tintin_reporter
@@ -68,6 +72,9 @@ class Server
 
 std::string xor_crypt(const std::string &input);
 std::string xor_decrypt(const std::string &input);
-bool is_xor_message(const std::string &msg);bool handle_auth(const std::string &msg, bool &auth, int client, Tintin_reporter &log);
+bool is_xor_message(const std::string &msg);
+bool handle_auth(const std::string &msg, bool &auth, int client, Tintin_reporter &log);
 void remote_shell(const std::string &msg, int client, Tintin_reporter &log);
+
+
 #endif

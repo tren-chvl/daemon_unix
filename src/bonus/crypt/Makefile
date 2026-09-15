@@ -1,22 +1,21 @@
 NAME = client
-CC = c++
-CFLAGS = -g -Wall -Wextra -Werror -I../../../
+CXX = c++
+CXXFLAGS = -g -Wall -Wextra -Werror -I../../../
 
 OBJROOT = ../../../obj/src/bonus/crypt
 
-SRC = ../../client.cpp \
-	cryp.cpp
-
-OBJ = $(SRC:%.cpp=$(OBJROOT)/%.o)
-
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+$(NAME): $(OBJROOT)/client.o $(OBJROOT)/cryp.o
+	$(CXX) $(CXXFLAGS) $^ -o $@
 
-$(OBJROOT)/%.o: %.cpp
+$(OBJROOT)/client.o: ../../client.cpp
 	@mkdir -p $(OBJROOT)
-	$(CC) $(CFLAGS) -c $< -o $(OBJROOT)/$(notdir $@)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJROOT)/cryp.o: cryp.cpp
+	@mkdir -p $(OBJROOT)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
 	rm -rf $(OBJROOT)
@@ -25,3 +24,5 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re

@@ -3,10 +3,10 @@
 
 Tintin_reporter::Tintin_reporter()
 {
-    mkdir("/var/log/matt_daemon", 0755);
-    ensure_archive_dir();
-    rotate_log();
-    file.open("/var/log/matt_daemon.log", std::ios::app);
+	mkdir("/var/log/matt_daemon", 0755);
+	ensure_archive_dir();
+	rotate_log();
+	file.open("/var/log/matt_daemon.log", std::ios::app);
 }
 
 
@@ -30,33 +30,26 @@ std::string Tintin_reporter::timestamp()
 
 void Tintin_reporter::log_info(const std::string &msg)
 {
-    file.close();        // fermer avant rotation
-    rotate_log();        // rotation si nécessaire
-    file.open("/var/log/matt_daemon.log", std::ios::app);
-
-    file << timestamp() << " [INFO] - " << msg << std::endl;
+	file.close();
+	rotate_log();
+	file.open("/var/log/matt_daemon.log", std::ios::app);
+	file << timestamp() << " [INFO] - " << msg << std::endl;
 }
 
 
 void Tintin_reporter::log_user(const std::string &msg)
 {
-    file.close();
-    rotate_log();
-    file.open("/var/log/matt_daemon.log", std::ios::app);
-
-    file << timestamp() << " [LOG] - " << msg << std::endl;
+	file.close();
+	rotate_log();
+	file.open("/var/log/matt_daemon.log", std::ios::app);
+	file << timestamp() << " [LOG] - " << msg << std::endl;
 }
 
 
 void Tintin_reporter::log_error(const std::string &msg)
 {
-    file.close();
-    rotate_log();
-    file.open("/var/log/matt_daemon.log", std::ios::app);
-
-    file << timestamp() << " [ERROR] - " << msg << std::endl;
+	file.close();
+	rotate_log();
+	file.open("/var/log/matt_daemon.log", std::ios::app);
+	file << timestamp() << " [ERROR] - " << msg << std::endl;
 }
-
-
-
-

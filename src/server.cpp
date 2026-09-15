@@ -43,6 +43,7 @@ void Server::run()
 		char buffer[1024];
 		while (true)
 		{
+			memset(buffer, 0, sizeof(buffer));
 			int n = recv(client, buffer, sizeof(buffer), 0);
 			if (n <= 0)
 				break;
@@ -68,16 +69,21 @@ void Server::run()
 			{
 				log.log_info("Matt_daemon: Sending alert mail.");
 				int ret = system("echo 'Alert from Matt_daemon: received \"alert\" command.' | mail -s 'Matt_daemon Alert' root");
+				std::string resp;
 				if (ret == -1)
-					log.log_error("Matt_daemon: Failed to execute mail command.");
+					resp = "Mail command failed.\n";
 				else
-					log.log_info("Matt_daemon: Alert mail sent.");
+					resp = "Alert mail sent.\n";
+				std::string encrypt = xor_crypt(resp);
+				std::string to_send = "XOR:" + encrypt;
+				send(client, to_send.data(), to_send.size(), 0);
 				continue;
 			}
 			log.log_error("Unknown command: " + msg);
 			std::string resp = "Unknown command.\n";
-			std::string encrypted = xor_crypt(resp);
-			send(client, encrypted.data(), encrypted.size(), 0);
+			std::string encrypt = xor_crypt(resp);
+			std::string to_send = "XOR:" + encrypt;
+			send(client, to_send.data(), to_send.size(), 0);			
 		}
 		close(client);
 	}

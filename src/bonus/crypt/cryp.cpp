@@ -1,7 +1,5 @@
 #include "daemon.hpp"
 
-
-
 static const std::string XOR_KEY = "matt_daemon_key";
 
 std::string xor_crypt(const std::string &input)
@@ -20,10 +18,13 @@ std::string xor_crypt(const std::string &input)
 std::string xor_decrypt(const std::string &input)
 {
 	std::string tmp;
-
+	if (input.size() % 2 != 0)
+		return "";
 	for (size_t i = 0; i < input.size(); i += 2)
 	{
 		std::string byte = input.substr(i, 2);
+		if (!std::isxdigit(byte[0]) || !std::isxdigit(byte[1]))
+			return "";
 		unsigned char c = (unsigned char)std::stoi(byte, nullptr, 16);
 		tmp.push_back(c);
 	}
